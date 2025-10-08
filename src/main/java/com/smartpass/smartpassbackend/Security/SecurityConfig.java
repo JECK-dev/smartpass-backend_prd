@@ -34,22 +34,31 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
 
-
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOrigins(List.of(
-                "http://localhost:4200",
-                "http://192.168.18.3:8080",
-                "https://smartpass-front-prd.pages.dev"
+        // ✅ Dominios permitidos
+        config.setAllowedOrigins(List.of(
+                "http://localhost:4200",                        // desarrollo local
+                "http://192.168.18.3:8080",                     // pruebas locales
+                "https://smartpass-front-prd.pages.dev",
+                "https://89425ed1.smartpass-front-prd.pages.dev" // producción en Cloudflare
         ));
 
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
+        // ✅ Métodos HTTP permitidos
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // ✅ Encabezados permitidos
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+
+        // ✅ Permitir envío de credenciales (si usas cookies o auth headers)
+        config.setAllowCredentials(true);
+
+        // ✅ Tiempo que el navegador cachea la respuesta del preflight
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", config);
+
         return source;
     }
 
