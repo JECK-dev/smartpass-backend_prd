@@ -21,9 +21,25 @@ public class ReclamoController {
         this.vehiculoRepository = vehiculoRepository;
     }
 
-    @PostMapping
-    public Reclamo crearReclamo(@RequestBody Reclamo reclamo) {
-        return reclamoService.crearReclamo(reclamo);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> crearReclamo(
+            @RequestParam("idCliente") Long idCliente,
+            @RequestParam("idVehiculo") Integer idVehiculo,
+            @RequestParam("idTipoReclamo") Integer idTipoReclamo,
+            @RequestParam("detalle") String detalle,
+            @RequestParam("estado") Integer estado,
+            @RequestPart(value = "archivo", required = false) MultipartFile archivo
+    ) {
+        try {
+            Reclamo nuevo = reclamoService.crearReclamoConArchivo(
+                    idCliente, idVehiculo, idTipoReclamo, detalle, estado, archivo
+            );
+            return ResponseEntity.ok(nuevo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error al registrar el reclamo."));
+        }
     }
 
     @GetMapping("/{idCliente}")
