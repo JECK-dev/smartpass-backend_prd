@@ -23,8 +23,8 @@ public class PasswordResetController {
         String email = body.get("email");
         String token = resetService.generarToken(email);
 
-        // Aquí deberías enviar correo, de momento devolvemos el link mock
-        String resetLink = "http://localhost:4200/reset-password?token=" + token;
+           // Aquí deberías enviar correo, de momento devolvemos el link mock
+        String resetLink = "https://smartpass-front-prd.pages.dev/reset-password?token=" + token;
 
         return ResponseEntity.ok(Map.of("message", "Correo enviado", "resetLink", resetLink));
     }
