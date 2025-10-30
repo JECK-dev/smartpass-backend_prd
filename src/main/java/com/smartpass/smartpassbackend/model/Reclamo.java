@@ -39,6 +39,9 @@ public class Reclamo {
     @Column(length = 500)
     private String respuesta;
 
+    @Column(name = "archivo")
+    private String archivo;
+
     // --- Getters & Setters ---
     public Integer getIdReclamo() { return idReclamo; }
     public void setIdReclamo(Integer idReclamo) { this.idReclamo = idReclamo; }
@@ -66,4 +69,8 @@ public class Reclamo {
 
     public String getRespuesta() { return respuesta; }
     public void setRespuesta(String respuesta) { this.respuesta = respuesta; }
+
+    public String getArchivo() {return archivo;}
+
+    public void setArchivo(String archivo) {this.archivo = archivo;}
 }
