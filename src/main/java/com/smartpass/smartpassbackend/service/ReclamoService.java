@@ -1,9 +1,18 @@
 package com.smartpass.smartpassbackend.service;
 
+import com.smartpass.smartpassbackend.model.Cliente;
 import com.smartpass.smartpassbackend.model.Reclamo;
+import com.smartpass.smartpassbackend.model.TipoReclamo;
+import com.smartpass.smartpassbackend.model.Vehiculo;
 import com.smartpass.smartpassbackend.repository.ReclamoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,6 +23,7 @@ public class ReclamoService {
     public ReclamoService(ReclamoRepository reclamoRepo) {
         this.reclamoRepo = reclamoRepo;
     }
+
 
     public Reclamo crearReclamoConArchivo(Long idCliente, Integer idVehiculo,
                                           Integer idTipoReclamo, String detalle,
@@ -54,6 +64,8 @@ public class ReclamoService {
         return reclamoRepo.save(reclamo);
     }
 
+
+
     public List<Reclamo> listarPorCliente(Integer idCliente) {
         return reclamoRepo.findByClienteIdCliente(idCliente);
     }
@@ -72,3 +84,4 @@ public class ReclamoService {
     }
 
 }
+    
