@@ -15,7 +15,42 @@ public class ReclamoService {
         this.reclamoRepo = reclamoRepo;
     }
 
-    public Reclamo crearReclamo(Reclamo reclamo) {
+    public Reclamo crearReclamoConArchivo(Long idCliente, Integer idVehiculo,
+                                          Integer idTipoReclamo, String detalle,
+                                          Integer estado, MultipartFile archivo) throws IOException {
+
+        Reclamo reclamo = new Reclamo();
+
+        // 🔹 Asignar relaciones correctamente
+        Cliente cliente = new Cliente();
+        cliente.setIdCliente(idCliente);
+        reclamo.setCliente(cliente);
+
+        Vehiculo vehiculo = new Vehiculo();
+        vehiculo.setIdVehiculo(idVehiculo);
+        reclamo.setVehiculo(vehiculo);
+
+        TipoReclamo tipoReclamo = new TipoReclamo();
+        tipoReclamo.setIdTipoReclamo(idTipoReclamo);
+        reclamo.setTipoReclamo(tipoReclamo);
+
+        // 🔹 Campos simples
+        reclamo.setDetalle(detalle);
+        reclamo.setEstado(estado);
+        reclamo.setFechaCreacion(LocalDateTime.now());
+
+        // 🔹 Guardar archivo si se adjuntó
+        if (archivo != null && !archivo.isEmpty()) {
+            Path carpeta = Paths.get("uploads/reclamos");
+            Files.createDirectories(carpeta);
+
+            String nombreArchivo = System.currentTimeMillis() + "_" + archivo.getOriginalFilename();
+            Path rutaArchivo = carpeta.resolve(nombreArchivo);
+            Files.copy(archivo.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
+
+            reclamo.setArchivo(nombreArchivo);
+        }
+
         return reclamoRepo.save(reclamo);
     }
 
