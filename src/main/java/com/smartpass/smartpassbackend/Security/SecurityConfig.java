@@ -41,7 +41,7 @@ public class SecurityConfig {
                 "http://localhost:4200",                        // desarrollo local
                 "http://192.168.18.3:8080",                     // pruebas locales
                 "https://smartpass-front-prd.pages.dev",
-                "https://89425ed1.smartpass-front-prd.pages.dev" // producción en Cloudflare
+                "https://67a59258.smartpass-front-prd.pages.dev" // producción en Cloudflare
         ));
 
         // ✅ Métodos HTTP permitidos
