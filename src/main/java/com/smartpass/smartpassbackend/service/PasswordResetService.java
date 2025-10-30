@@ -41,7 +41,7 @@ public class PasswordResetService {
         tokenRepository.save(resetToken);
 
         // Link para frontend
-        String resetLink = "http://localhost:4200/reset-password?token=" + token;
+        String resetLink = "https://67a59258.smartpass-front-prd.pages.dev/reset-password?token=" + token;
 
         // Enviar correo
         emailService.enviarCorreo(
