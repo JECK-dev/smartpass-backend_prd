@@ -24,7 +24,7 @@ public class PasswordResetController {
         String token = resetService.generarToken(email);
 
            // Aquí deberías enviar correo, de momento devolvemos el link mock
-        String resetLink = "https://smartpass-front-prd.pages.dev/reset-password?token=" + token;
+        String resetLink = "https://67a59258.smartpass-front-prd.pages.dev/reset-password?token=" + token;
 
         return ResponseEntity.ok(Map.of("message", "Correo enviado", "resetLink", resetLink));
     }
