@@ -79,4 +79,29 @@ public class ContratoService {
         return contratoRepository.save(contrato);
     }
 
+    // Cambiar modalidad con validaciones
+    public Contrato cambiarModalidad(Integer idContrato, Integer nuevoEstado) {
+        Contrato contrato = contratoRepository.findById(idContrato)
+                .orElseThrow(() -> new RuntimeException("Contrato no encontrado."));
+
+        // 🔒 Validaciones de restricción (CP019)
+        if (contrato.getSaldo().compareTo(BigDecimal.ZERO) < 0) {
+            throw new RuntimeException("No es posible cambiar modalidad por saldo negativo.");
+        }
+
+        if (contrato.getIdEstado() == 2) { // Baja
+            throw new RuntimeException("No se puede cambiar modalidad porque el contrato ya está dado de baja.");
+        }
+
+        // Si el nuevo estado es el mismo
+        if (contrato.getIdEstado().equals(nuevoEstado)) {
+            throw new RuntimeException("El contrato ya se encuentra en esa modalidad.");
+        }
+
+        contrato.setIdEstado(nuevoEstado);
+        contrato.setFechaModificacion(LocalDateTime.now());
+
+        return contratoRepository.save(contrato);
+    }
+
 }
