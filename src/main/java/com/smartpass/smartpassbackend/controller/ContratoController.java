@@ -83,4 +83,19 @@ public class ContratoController {
         return ResponseEntity.ok(contrato);
 
     }
+
+    // Endpoint para cambiar modalidad
+    @PutMapping("/{id}/cambiar-modalidad")
+    public ResponseEntity<?> cambiarModalidad(
+            @PathVariable Integer id,
+            @RequestParam Integer nuevoEstado) {
+
+        try {
+            Contrato contratoActualizado = contratoService.cambiarModalidad(id, nuevoEstado);
+            return ResponseEntity.ok(contratoActualizado);
+
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", ex.getMessage()));
+        }
+    }
 }
